@@ -102,6 +102,11 @@ function convertCreditsToHours(playerLevel, credits) {
   }
 }
 
+
+/**
+* The remainer of this file is not part of the review but mimics the backend - which is not fully implemented for this example.
+**/
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
