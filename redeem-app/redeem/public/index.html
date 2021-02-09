@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Redeem Credits</title>
+    </head>
+    <body>
+        <form>
+            <div>
+                <label for="credits">Redeem Credits:</label>
+                <input id="credits" value="0">
+            </div>
+            <div>
+                <button id="sendButton">Send</button>
+            </div>
+        </form>
+        <div id="statusText"></div>
+    </body>
+    <script>
+        const urlString = window.location.href;
+        const url = new URL(urlString);
+        const userId = url.searchParams.get("userId") || 0;
+
+        const sendButton = document.getElementById('sendButton');
+        sendButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                const credits = document.getElementById("credits").value;
+                fetch('/redeem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: userId,
+                        credits: credits
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('statusText').innerHTML = data.status;
+                })
+                .catch((error) => {
+                    document.getElementById('statusText').innerHTML = error.status;
+                });
+        });
+    </script>
+</html>
