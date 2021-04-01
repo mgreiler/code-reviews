@@ -5,6 +5,8 @@
     <body>
         <form>
             <div>
+                <input id="Username" value="Your username">
+                <br/>
                 <label for="credits">Redeem Credits:</label>
                 <input id="credits" value="0">
             </div>
@@ -23,6 +25,7 @@
         sendButton.addEventListener('click', (e) => {
                 e.preventDefault();
                 const credits = document.getElementById("credits").value;
+                const username = document.getElementById("Username").value;
                 fetch('/redeem', {
                     method: 'POST',
                     headers: {
@@ -30,7 +33,8 @@
                     },
                     body: JSON.stringify({
                         userId: userId,
-                        credits: credits
+                        credits: credits,
+                        username: username
                     })
                 })
                 .then(response => response.json())

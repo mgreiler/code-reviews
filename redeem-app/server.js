@@ -12,12 +12,13 @@ app.get("/", function (req, res) {
 app.post("/redeem", function (req, res) {
   const credits = req.body.credits;
   const userId = req.body.userId;
-  console.log(`redeeming ${credits} credits for user ${userId}`);
+  const username = req.body.username;
+  console.log(`redeeming ${credits} credits for user: ${username} (${userId})`);
 
   try {
     const hours = redeemCredits(credits, userId);
     res.send({
-      status: `User ${userId} redeemed ${credits} credits to get ${hours} hours.`,
+      status: `User ${username} redeemed ${credits} credits to get ${hours} hours.`,
     });
   } catch (err) {
     res.status(400).send({
@@ -90,7 +91,11 @@ function chargeCreditsFromPlayer(credits, playerId) {
 /**
  * This method converts the credits to game hours. Gamers that
  * have a lower gaming level get more game hours for their credits.
- * For more advanced gamers, buying new credits is more expensive.==
+ * For more advanced gamers, buying new credits is more expensive.
+ * 
+ * Players of level less than 3, get 3 times the hours of their credit
+ * Players of level less than 8, get 1.5 times the hours of their credit
+ * Players of level higher than 8, get just the hours of the credit.
  */
 function convertCreditsToHours(playerLevel, credits) {
   if (playerLevel < 3) {
@@ -102,10 +107,19 @@ function convertCreditsToHours(playerLevel, credits) {
   }
 }
 
+
+/**Please ignore for code review review 
+ * assume there is some awesome background service that handles 
+ * query execution etc. that you use as black box
+*/
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+/**Please ignore for code review review 
+ * assume there is some awesome background service that handles 
+ * query execution etc. that you use as black box
+*/
 function executeQuery() {
   return getRandomInt(13);
 }
